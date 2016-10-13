@@ -62,9 +62,11 @@ class chocolatey_server (
 
   # add windows features
   windowsfeature { 'Web-WebServer':
+    ensure => present,
     installmanagementtools => $_install_management_tools,
   } ->
   windowsfeature { "${_web_asp_net}":
+    ensure => present,
   } ->
 
   # remove default web site
