@@ -78,24 +78,34 @@ class chocolatey_server (
   } ->
 
   # remove default web site
-  iis::manage_site {'Default Web Site':
-    ensure    => absent,
-    site_path => 'any',
-    app_pool  => 'DefaultAppPool',
+  dsc_xwebsite{'Default Web Site':
+    dsc_ensure       => 'Absent',
+    dsc_name         => 'Default Web Site',
+    dsc_applicationpool => 'DefaultAppPool',
     require   => Windowsfeature['Web-WebServer'],
   } ->
 
   # application in iis
-  iis::manage_app_pool { "${_chocolatey_server_app_pool_name}":
-    enable_32_bit           => true,
-    managed_runtime_version => 'v4.0',
+  dsc_xwebapppool { "${_chocolatey_server_app_pool_name}":
+    dsc_ensure => 'Present',
+    dsc_name => $_chocolatey_server_app_pool_name,
+    dsc_enable32bitapponwin64 => true,
+    dsc_managedruntimeversion => 'v4.0',
   } ->
-  iis::manage_site {'chocolatey.server':
-    site_path  => $_chocolatey_server_location,
-    port       => "${_chocolatey_server_app_port}",
-    ip_address => '*',
-    app_pool   => "${_chocolatey_server_app_pool_name}",
-    require    => Package['chocolatey.server'],
+
+  dsc_xwebsite{'chocolatey.server':
+    dsc_ensure       => 'Present',
+    dsc_name         => 'chocolatey.server',
+    dsc_physicalpath => $_chocolatey_server_location,
+    dsc_applicationpool => $_chocolatey_server_app_pool_name,
+    dsc_bindinginfo => [
+      {
+        protocol => 'http',
+        port => $_chocolatey_server_app_port,
+        ipaddress => '*',
+      }
+    ],
+    require   => Package['chocolatey.server'],
   } ->
 
   # lock down web directory
