@@ -121,17 +121,14 @@ class chocolatey_server (
       { identity => "IIS APPPOOL\\${_chocolatey_server_app_pool_name}", rights => ['modify'] },
       { identity => 'IIS_IUSRS', rights => ['modify'] }
     ],
-    require     => Package['chocolatey.server'],
+    require     => [Iis::Manage_app_pool["${_chocolatey_server_app_pool_name}"],
+                    Package['chocolatey.server']],
   }
 
   # configure chocolatey server settings
   file { "${_chocolatey_server_location}/web.config":
     ensure  => file,
-    content => epp('chocolatey_server/web.config.epp', {
-      'allowOverrideExistingPackageOnPush' => $allow_package_override,
-      'apiKey'                             => $apikey,
-      'requireApiKey'                      => $require_apikey,
-    }),
+    content => template('chocolatey_server/web.config.erb'),
     require => Package['chocolatey.server'],
   }
 

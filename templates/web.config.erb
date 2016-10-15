@@ -1,6 +1,7 @@
-<%- | Boolean $allowOverrideExistingPackageOnPush, String $apiKey, Boolean $requireApiKey | -%>
 <?xml version="1.0"?>
 <!--
+  Managed by Puppet
+
   For more information on how to configure your ASP.NET application, please visit
   http://go.microsoft.com/fwlink/?LinkId=169433
   -->
@@ -66,12 +67,12 @@
     <!--
             Determines if an Api Key is required to push\delete packages from the server.
     -->
-    <add key="requireApiKey" value="<%= $requireApiKey %>"/>
+    <add key="requireApiKey" value="<%= @require_apikey %>"/>
     <!--
             Set the value here to allow people to push/delete packages from the server.
             NOTE: This is a shared key (password) for all users.
     -->
-    <add key="apiKey" value="<%= $apiKey %>"/>
+    <add key="apiKey" value="<%= @apikey %>"/>
     <!--
             Change the path to the packages folder. Default is ~/Packages.
             This can be a virtual or physical path.
@@ -81,7 +82,7 @@
             Set allowOverrideExistingPackageOnPush to false if attempts to upload a package that already exists
             (same id and same version) should fail.
     -->
-    <add key="allowOverrideExistingPackageOnPush" value="<%= $allowOverrideExistingPackageOnPush %>"/>
+    <add key="allowOverrideExistingPackageOnPush" value="<%= @allow_package_override %>"/>
     <!--
             Set enableDelisting to true to enable delist instead of delete as a result of a "nuget delete" command.
             - delete: package is deleted from the repository's local filesystem.
