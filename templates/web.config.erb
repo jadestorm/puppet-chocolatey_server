@@ -33,6 +33,11 @@
     <staticContent>
       <mimeMap fileExtension=".nupkg" mimeType="application/zip"/>
     </staticContent>
+    <security>
+      <requestFiltering>
+        <requestLimits maxAllowedContentLength="<%= @max_file_size_bytes %>" />
+      </requestFiltering>
+    </security>
   </system.webServer>
   <elmah>
     <!--

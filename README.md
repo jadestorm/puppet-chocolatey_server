@@ -149,11 +149,18 @@ Set the apikey for chocolatey server used to push packages. Defaults to
 Set apppool name used by the chocolatey.server website. Defaults to
 'chocolatey.server'.
 
+##### `chocolatey_server_ensure`
+Ensure the version of chocolatey server to install. Defaults to 'install'.
+
 ##### `disable_default_website`
 The default website is stopped to prevent conflicts with the
 chocolatey server website. An alternate port can be defined and
 this option can be set to disabled so it doesn't modify the default
 website. Defaults to 'true'.
+
+##### `max_file_size_bytes`
+If you want to allow larger files to be pushed via the chocolatey api, you can
+set this value in bytes to increase the limit. Defaults to '52428800' bytes.
 
 ##### `packages_folder`
 An alternate folder can be defined for the .nupkg files. This is where the

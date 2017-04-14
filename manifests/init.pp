@@ -35,7 +35,9 @@ class chocolatey_server (
   $allow_package_override = $::chocolatey_server::params::allow_package_override,
   $apikey = $::chocolatey_server::params::apikey,
   $chocolatey_server_app_pool_name = $::chocolatey_server::params::chocolatey_server_app_pool_name,
+  $chocolatey_server_ensure = $::chocolatey_server::params::chocolatey_server_ensure,
   $disable_default_website = $::chocolatey_server::params::disable_default_website,
+  $max_file_size_bytes = $::chocolatey_server::params::max_file_size_bytes,
   $packages_folder = $::chocolatey_server::params::packages_folder,
   $packages_folder_permissions = $::chocolatey_server::params::packages_folder_permissions,
   $port = $::chocolatey_server::params::service_port,
@@ -72,7 +74,7 @@ class chocolatey_server (
 
   # package install
   package {'chocolatey.server':
-    ensure   => installed,
+    ensure   => $chocolatey_server_ensure,
     provider => chocolatey,
     source   => $_server_package_url,
   }
