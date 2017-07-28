@@ -133,7 +133,7 @@ class chocolatey_server (
       { identity => "IIS APPPOOL\\${_chocolatey_server_app_pool_name}",
       rights     => ['read'] }
     ],
-    require                    => [Iis::Manage_app_pool["${_chocolatey_server_app_pool_name}"],
+    require                    => [Dsc_xwebsite['chocolatey.server'],
                                   Package['chocolatey.server']],
   } ->
   acl { "${_chocolatey_server_location}/App_Data":
@@ -141,7 +141,7 @@ class chocolatey_server (
       { identity => "IIS APPPOOL\\${_chocolatey_server_app_pool_name}", rights => ['modify'] },
       { identity => 'IIS_IUSRS', rights => ['modify'] }
     ],
-    require     => [Iis::Manage_app_pool["${_chocolatey_server_app_pool_name}"],
+    require     => [Dsc_xwebsite['chocolatey.server'],
                     Package['chocolatey.server']],
   }
 
@@ -168,7 +168,7 @@ class chocolatey_server (
 
     acl { "${_chocolatey_server_location}/App_Data":
       permissions => $packages_folder_permissions,
-      require     => [Iis::Manage_app_pool["${_chocolatey_server_app_pool_name}"],
+      require     => [Dsc_xwebsite['chocolatey.server'],
                       File["${_chocolatey_server_location}/App_Data"],
                       Package['chocolatey.server']],
     }
