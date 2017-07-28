@@ -135,14 +135,6 @@ class chocolatey_server (
     ],
     require                    => [Dsc_xwebsite['chocolatey.server'],
                                   Package['chocolatey.server']],
-  } ->
-  acl { "${_chocolatey_server_location}/App_Data":
-    permissions => [
-      { identity => "IIS APPPOOL\\${_chocolatey_server_app_pool_name}", rights => ['modify'] },
-      { identity => 'IIS_IUSRS', rights => ['modify'] }
-    ],
-    require     => [Dsc_xwebsite['chocolatey.server'],
-                    Package['chocolatey.server']],
   }
 
   # configure chocolatey server settings
