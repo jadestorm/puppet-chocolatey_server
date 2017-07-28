@@ -71,14 +71,6 @@ class chocolatey_server (
     source   => $_server_package_url,
   }
 
-  file { "c:/tools/chocolatey.server/Web.config":
-    ensure  => present,
-    # needed to adjust the allowable upload size template
-    # see https://stackoverflow.com/questions/10122957/iis7-413-request-entity-too-large-uploadreadaheadsize
-    content => template("chocolatey_server/ChocoServerWeb.config.erb"),
-    require => Package['chocolatey.server'],
-  }
-
   # add windows features
   windowsfeature { 'Web-WebServer':
     ensure => present,
