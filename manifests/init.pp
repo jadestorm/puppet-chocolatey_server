@@ -64,14 +64,6 @@ class chocolatey_server (
     default => 'Web-Asp-Net45'
   }
 
-  # disable default web site
-  if $disable_default_website {
-    iis::manage_site {'Default Web Site':
-      ensure   => stopped,
-      app_pool => 'DefaultAppPool',
-    }
-  }
-
   # package install
   package {'chocolatey.server':
     ensure   => $chocolatey_server_ensure,
